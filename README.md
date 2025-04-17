@@ -2,7 +2,7 @@
 setup a magento instance on your sandbox environment easily.
 
 # Gitpod Setup Quick and Easy.
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/bajoski34/m245)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/bajoski34/magento-playground)
 
 # Simple Magento Development Environment Using Gitpod.
 
