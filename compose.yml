@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: magento
+      MYSQL_USER: root
+      MYSQL_PASSWORD: rootpassword
+
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    environment:
+      discovery.type: single-node
+      plugins.security.disabled: "true"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: Ex@mpl3Str0ngP@ssw0rd!
+      network.host: 0.0.0.0
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+
+  web:
+    build:
+      context: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./magento:/var/www/html
+    depends_on:
+      - db
+      - opensearch
+    command: >
+      bash -c "
+        mkdir -p var/page_cache generated pub/static pub/media &&
+        chmod -R 777 var generated pub &&
+        apache2-foreground
+      "
+
+  mailcatcher:
+    image: sj26/mailcatcher:v0.10.0
+    ports:
+      - "1080:1080"

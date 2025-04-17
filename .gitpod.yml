@@ -1,0 +1,19 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Setup Magento
+    init: |
+      make deps
+      make prep
+      docker-compose up -d
+      sleep 15
+      make setup
+      make sample-data
+      make build
+    command: |
+      php -S 0.0.0.0:8080 -t magento/pub magento/phpserver/router.php
+
+ports:
+  - port: 8080
+    onOpen: open-preview
